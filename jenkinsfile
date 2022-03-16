@@ -5,9 +5,9 @@ pipeline {
 
      parameters {
         
-        string(name: "STACK_NAME", defaultValue: "ssbostan", trim: true, description: "Sample string parameter")
-        string(name: "KEY", defaultValue: "ssbostan", trim: true, description: "Sample string parameter")
-        string(name: "VALUE", defaultValue: "ssbostan", trim: true, description: "Sample string parameter")
+        string(name: "STACK_NAME", defaultValue: "dev", trim: true, description: "Stack Name where you want to modify the parameter")
+        string(name: "KEY", defaultValue: "hello", trim: true, description: "Key of the parameter you want to modify")
+        string(name: "VALUE", defaultValue: "prod", trim: true, description: "Value of the parameter you want to modify")
        
     }
     stages {

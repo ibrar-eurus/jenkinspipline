@@ -57,7 +57,7 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                             cfn_client.update_stack(
                                 StackName=stack['StackName'], UsePreviousTemplate=True,
                                 Parameters=parameters,
-                                Capabilities=['CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND'])
+                                Capabilities=['CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND', 'CAPABILITY_IAM'])
 
                             print(
                                 "********************************************************************")
