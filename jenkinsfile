@@ -16,10 +16,10 @@ pipeline {
                 
                 script {
                     
-                   cf_change_parameters.py $STACK_NAME $KEY $VALUE
+                   python3 cf_change_parameters.py $STACK_NAME $KEY $VALUE
                   
                 }
-                    
+                     
                  
             }
         }
