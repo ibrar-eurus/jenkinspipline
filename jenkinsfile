@@ -16,7 +16,7 @@ pipeline {
                 
                 sh '''#!/bin/bash
                  
-                 python3 changeparameter $STACK_NAME $KEY $VALUE  >> text.txt
+                 python3 changeparameter.py $STACK_NAME $KEY $VALUE  >> text.txt
 
                   '''
             
