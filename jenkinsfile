@@ -16,7 +16,7 @@ pipeline {
                 
                 script {
                     
-                   sh "cf_change_parameters.py $STACK_NAME $KEY $VALUE"
+                   cf_change_parameters.py $STACK_NAME $KEY $VALUE
                   
                 }
                     
