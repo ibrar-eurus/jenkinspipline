@@ -1,0 +1,27 @@
+//properties([parameters([string(defaultValue: 'dev1', name: 'StackName'), string(defaultValue: 'diskpart', name: 'Key'), string(defaultValue: 'disk', name: 'Value')])])
+
+pipeline {
+    agent any
+
+     parameters {
+        
+        string(name: "STACK_NAME", defaultValue: "ssbostan", trim: true, description: "Sample string parameter")
+        string(name: "KEY", defaultValue: "ssbostan", trim: true, description: "Sample string parameter")
+        string(name: "VALUE", defaultValue: "ssbostan", trim: true, description: "Sample string parameter")
+       
+    }
+    stages {
+        stage('Build') {
+            steps {
+                
+                script {
+                    
+                   python3 cf_change_parameters.py $STACK_NAME $KEY $VALUE >> text.txt
+                  
+                }
+                    
+                 
+            }
+        }
+    }
+}
