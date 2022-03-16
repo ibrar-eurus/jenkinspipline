@@ -14,11 +14,10 @@ pipeline {
         stage('Build') {
             steps {
                 
-                script {
-                    
-                   'python3 cf_change_parameters.py $STACK_NAME $KEY $VALUE'
-                  
-                }
+                sh '''#!/bin/bash
+                 python3 changeparameter.py $STACK_NAME $KEY $VALUE
+                  '''
+            
                      
                  
             }
