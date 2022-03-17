@@ -74,6 +74,10 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                                 stack['StackName'])
                         except Exception as e:
                             print(e)
+                            print("\nStack {} updation unsuccessfull".format(
+                                stack['StackName']))
+                            print(
+                                "********************************************************************")
                             unsuccessfully_updated_stacks.append(
                                 stack['StackName'])
             print("Successfully Updated Stacks")
