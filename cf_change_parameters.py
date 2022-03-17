@@ -4,14 +4,13 @@ import sys
 
 
 def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, ParameterValue):
-    update_successfull_stacks = []
-    update_unsuccessfull_stacks = []
-    StackNameStartsWith = StackNameStartsWith
-    key = ParameterKey
-    value = ParameterValue
+    successfully_updated_stacks = []
+    unsuccessfully_updated_stacks = []
 
-    ######## add parameters you want to change#########
-    parameters_to_be_modified = [{'key': key, 'value': value}]
+    ######## Parameter Key and Value which will be modified #########
+    parameters_to_be_modified = [
+        {'key': ParameterKey, 'value': ParameterValue}]
+
     state_stack = ['CREATE_COMPLETE',
                    'ROLLBACK_FAILED',
                    'ROLLBACK_COMPLETE',
@@ -20,8 +19,10 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                    'UPDATE_ROLLBACK_FAILED',
                    'UPDATE_ROLLBACK_COMPLETE'
                    ]
+
     cfn_client = boto3.client('cloudformation', region_name='us-east-1')
     waiter = cfn_client.get_waiter('stack_update_complete')
+
     stacks_list = cfn_client.list_stacks(
         StackStatusFilter=state_stack
     )
@@ -35,7 +36,7 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                         print("Stack Name {} starts with {}".format(
                             stack['StackName'], StackNameStartsWith))
 
-            #################Describe stack########################################
+            ################# Describing Stack ########################################
                         stack_details = cfn_client.describe_stacks(
                             StackName=stack['StackName'])
                         print("\nFetching Parmeters from stack {}".format(
@@ -45,14 +46,14 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                         print("\nUpdating Parmeters for stack {}".format(
                             stack['StackName']))
 
-                        ################ Modifining  parameters ###############
+                        ################ Modifying  parameters ###############
                         for index, param in enumerate(parameters):
                             for to_be_alter in parameters_to_be_modified:
                                 if param["ParameterKey"] == to_be_alter["key"]:
                                     parameters[index]["ParameterValue"] = to_be_alter["value"]
 
                         pprint(parameters)
-                        ##############updating stacks########################
+                        ############## Updating Stack ########################
                         try:
                             cfn_client.update_stack(
                                 StackName=stack['StackName'], UsePreviousTemplate=True,
@@ -69,17 +70,17 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                             })
                             print("\nStack {} updated successfully".format(
                                 stack['StackName']))
-                            update_successfull_stacks.append(
+                            successfully_updated_stacks.append(
                                 stack['StackName'])
                         except Exception as e:
                             print(e)
-                            update_unsuccessfull_stacks.append(
+                            unsuccessfully_updated_stacks.append(
                                 stack['StackName'])
             print("Stacks updated successfully")
-            print(update_successfull_stacks)
+            print(successfully_updated_stacks)
 
             print("Stacks not updated ")
-            print(update_unsuccessfull_stacks)
+            print(unsuccessfully_updated_stacks)
 
         else:
             print("No stack found")
@@ -91,10 +92,9 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
             )
         else:
             break
-##################################call main function##############################
 
 
-if len(sys.argv) > 1:
+if len(sys.argv) == 4:
     change_parameter_of_cloudformation(sys.argv[1], sys.argv[2], sys.argv[3])
 else:
-    print("Please provide Stack Name")
+    print("Please provide the correct number of arguments")
