@@ -39,11 +39,11 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
             ################# Describing Stack ########################################
                         stack_details = cfn_client.describe_stacks(
                             StackName=stack['StackName'])
-                        print("\nFetching Parmeters from stack {}".format(
+                        print("\nFetching Parameters from stack {}".format(
                             stack['StackName']))
                         parameters = stack_details["Stacks"][0]["Parameters"]
                         pprint(parameters)
-                        print("\nUpdating Parmeters for stack {}".format(
+                        print("\nUpdating Parameters for stack {}".format(
                             stack['StackName']))
 
                         ################ Modifying  parameters ###############
@@ -60,8 +60,6 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                                 Parameters=parameters,
                                 Capabilities=['CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND', 'CAPABILITY_IAM'])
 
-                            print(
-                                "********************************************************************")
                             waiter.wait(StackName=stack['StackName'],
                                         WaiterConfig={
                                 'Delay': 20,
@@ -70,16 +68,18 @@ def change_parameter_of_cloudformation(StackNameStartsWith, ParameterKey, Parame
                             })
                             print("\nStack {} updated successfully".format(
                                 stack['StackName']))
+                            print(
+                                "********************************************************************")
                             successfully_updated_stacks.append(
                                 stack['StackName'])
                         except Exception as e:
                             print(e)
                             unsuccessfully_updated_stacks.append(
                                 stack['StackName'])
-            print("Stacks updated successfully")
+            print("Successfully Updated Stacks")
             print(successfully_updated_stacks)
 
-            print("Stacks not updated ")
+            print("Stacks Updation Unsuccessfull")
             print(unsuccessfully_updated_stacks)
 
         else:
